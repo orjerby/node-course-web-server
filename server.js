@@ -8,7 +8,7 @@ var app = express();
 hbs.registerPartials(`${__dirname}/views/partials`); // creates partials available inside partials folder
 app.set('view engine', 'hbs'); // we use the hbs engine
 
-app.use((req, res, next) => {
+app.use((req, res, next) => { // we use middleware to check or do some things before we continue
     var now = new Date().toString();
     var log = `${now}: ${req.method} ${req.url}`;
 
@@ -18,10 +18,10 @@ app.use((req, res, next) => {
             console.log('Unable to append to server.log.');
         }
     });
-    next();
+    next(); // next() is the command which tell the app to continue
 });
 
-// app.use((req, res, next) => {
+// app.use((req, res, next) => { // middlewars without next() will stop at the end of them and wont continue
 //     res.render('maintenance.hbs');
 // });
 
@@ -35,32 +35,32 @@ hbs.registerHelper('screamIt', text => { // creates helper to print an upperCase
     return text.toUpperCase();
 });
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // declare the route '/' to render home.hbs page with those arguments
     res.render('home.hbs', {
         pageTitle: 'Home Page',
         welcomeMessage: 'Welcome to my website!'
     });
 });
 
-app.get('/about', (req, res) => { // we render dynamic html with express and hbs
+app.get('/about', (req, res) => { // declare the route '/about' to render about.hbs page with those arguments
     res.render('about.hbs', {
         pageTitle: 'About Page'
     });
 });
 
-app.get('/maintenance', (req, res) => { // we render dynamic html with express and hbs
+app.get('/maintenance', (req, res) => { // declare the route '/maintenance' to render maintenance.hbs page with those arguments
     res.render('maintenance.hbs', {
         pageTitle: 'Maintenance Page'
     });
 });
 
-app.get('/bad', (req, res) => { // we send HTML to the bad page
+app.get('/bad', (req, res) => { // declare the route '/bad' to print a JSON object
     res.send({
         errorMessage: 'Unable to fulfill this request.'
     });
 });
 
-// app.get('/', (req, res) => { // we send JSON to the root
+// app.get('/', (req, res) => { // declare the route '/' to print an HTML or JSON object
 //     // res.send('<h1>Hello Express!</h1>');
 //     res.send({
 //         name: 'Or',
